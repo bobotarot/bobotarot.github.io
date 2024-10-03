@@ -117,3 +117,39 @@
     
 })(jQuery);
 
+function draw() {
+
+    jQuery( function( $ ) {
+        $('.table').css('opacity', '1');
+
+        const cardType = $('#cardType').val();
+        const cardAmount = $('#cardAmount').val();
+    
+        let cardIds = getArrayOfType(parseInt(cardType));
+        cardIds = shuffle(cardIds);
+        cardIds = cardIds.slice(0, parseInt(cardAmount));
+        const elementIds = cardIds.map(c => "rand-card-" + c);
+        $('.card').each(function() {
+            const id = $(this).attr('id');
+            if (elementIds.includes(id)) {
+                // $(this).removeClass('hidden');
+                $(this).width('');
+                $(this).height('');
+                $(this).css('opacity', '');
+                $(this).css('margin', '');
+            } else {
+                // $(this).addClass('hidden');
+                $(this).width(0);
+                $(this).height(0);
+                $(this).css('opacity', '0');
+                $(this).css('margin', '0');
+            }
+        });
+        let pre = elementIds.first;
+        for (let i = 1; i < elementIds.length; i ++) {
+            const name = elementIds[i];
+            $("#" + name).after($("#" + pre));
+            pre = name;
+        }
+    });
+}
